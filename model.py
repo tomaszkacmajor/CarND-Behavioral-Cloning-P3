@@ -12,6 +12,9 @@ from keras.optimizers import Adam
 from random import shuffle
 from sklearn.model_selection import train_test_split
 		
+# <markdowncell>
+# ### Help functions:
+# <codecell>
 def return_true_for_given_percentage(percent):
     random = np.random.randint(100)
     if random < percent:
@@ -69,6 +72,9 @@ def flip_image_and_steering(image, steering):
         steering = -steering
     return image, steering
 
+# <markdowncell>
+# ### Samples generator definition
+# <codecell>
 def generator(samples, batch_size, angle_correction):
     num_samples = len(samples)
     angle_corrections = [0, angle_correction, -angle_correction]
@@ -94,7 +100,9 @@ def generator(samples, batch_size, angle_correction):
             y_train = np.array(angles)
             yield sklearn.utils.shuffle(X_train, y_train)
 
-
+# <markdowncell>
+# ### DNN model definition (Nvidia pipeline)
+# <codecell>
 def build_nvidia_model(dropout=.4):
     model = Sequential()
     input_shape_before_crop=(IMAGE_ROWS_BEFORE_CROP,IMAGE_COLS, CHANNELS)
@@ -125,6 +133,9 @@ def build_nvidia_model(dropout=.4):
                   loss='mse')
     return model
 
+# <markdowncell>
+# ### Help functions for data visualization
+# <codecell>
 def get_steering_angles(samples):
     angles = []
     dummy_image = np.zeros((10,10,3), np.uint8)
@@ -170,16 +181,16 @@ def draw_images_examples(samples, indexes, images_x, images_y, title, transform_
         ax = fig.add_subplot(images_y,images_x, cnt)
         ax.title.set_text("Steering: {}".format(steering))
         plt.imshow(image)
-        
+       
+# <markdowncell>
+# ### Main code starts here, reading samples, splitting data
+# <codecell>
 
-    
-    
-# Main code goes here
-
-# Image dimesions after resizing from 160x320 and cropping
+# Image dimesions after resizing from 160x320 and after cropping
 IMAGE_ROWS = 100
 IMAGE_COLS = 100
 CHANNELS = 3
+
 IMAGE_CROP_TOP = 40
 IMAGE_CROP_BOTTOM = 20
 flip_active = False
@@ -194,6 +205,9 @@ with open ('./data/driving_log.csv') as csvfile:
 
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
+# <markdowncell>
+# ### Data visualization
+# <codecell>
 cols_images_to_present = 4;
 rows_images_to_present = 2;
 img_random_indexes = get_random_image_indexes(train_samples, cols_images_to_present*rows_images_to_present)
@@ -206,6 +220,9 @@ draw_histogram_of_steering_angles(train_samples, 'Histogram of training samples 
 flip_active = True 
 draw_histogram_of_steering_angles(train_samples, 'Histogram of training samples after equalization and steer flipping')  
 
+# <markdowncell>
+# ### Run and save the model
+# <codecell>
 ANGLE_CORRECTION = 0.25
 BATCH_SIZE = 128
 NO_EPOCHS = 3
