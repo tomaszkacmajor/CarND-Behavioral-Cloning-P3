@@ -3,6 +3,7 @@ import base64
 from datetime import datetime
 import os
 import shutil
+import cv2
 
 import numpy as np
 import socketio
@@ -61,6 +62,10 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
+        new_size_row, new_size_col = 160, 100
+        image_array = cv2.resize(image_array, (new_size_col, new_size_row))
+        
+        
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
