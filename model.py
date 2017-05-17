@@ -127,7 +127,7 @@ def build_nvidia_model(dropout=.4):
     model.add(Dense(50, activation='elu'))
     model.add(Dense(10, activation='elu'))
     model.add(Dense(1))
-
+    
     optimizer = Adam(lr=0.001)
     model.compile(optimizer=optimizer,
                   loss='mse')
@@ -214,8 +214,10 @@ img_random_indexes = get_random_image_indexes(train_samples, cols_images_to_pres
 draw_images_examples(train_samples, img_random_indexes, cols_images_to_present, rows_images_to_present, 'Examples of original images from training set', transform_image=False)
 draw_images_examples(train_samples, img_random_indexes, cols_images_to_present, rows_images_to_present, 'Examples of transformed images from training set', transform_image=True)
 
+print("Number of training samples: {}".format(len(train_samples)))
 draw_histogram_of_steering_angles(train_samples, 'Histogram of training samples')
 train_samples = remove_low_steering(train_samples, 85, 0.03)  
+print("Number of training samples after removing low steering: {}".format(len(train_samples)))
 draw_histogram_of_steering_angles(train_samples, 'Histogram of training samples after equalization')    
 flip_active = True 
 draw_histogram_of_steering_angles(train_samples, 'Histogram of training samples after equalization and steer flipping')  
