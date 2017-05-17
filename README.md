@@ -6,29 +6,6 @@ The goals / steps of this project are the following:
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
-
----
-### Files Submitted & Code Quality
-
-#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
-
-My project includes the following files:
-* model.py containing the script to create and train the model
-* drive.py for driving the car in autonomous mode
-* model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
-
-#### 2. Submission includes functional code
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
-```sh
-python drive.py model.h5
-```
-
-#### 3. Submission code is usable and readable
-
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ### Model Architecture and Training Strategy
 
@@ -50,7 +27,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually (m
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving and recovering from the left and right sides of the road. For the center lane driving I used the dataset prepared by Udacity - about 8 laps. Then, by driving the simulator manually, I collected samples for recovery situations. One lap where a car has to recover from different places at the right side of the road, another lap for the left lane recovery. Additionally I saved my manual proper driving for turn no. 2 and no. 3 as the model had some problems with them before. 
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving and recovering from the left and right sides of the road. For the center lane driving I used the dataset prepared by Udacity - about 8 laps. Then, by driving the simulator manually, I collected samples for recovery situations. One lap where a car has to recover from different places at the right side of the road, another lap for the left lane recovery. Additionally, I saved one lap of further center lane driving for turn no. 2 and no. 3 as the model had some problems with these places before. 
 
 For details about how I created the training data, see the next section. 
 
@@ -112,6 +89,8 @@ After the collection process, I had 9127 number of data points. I then preproces
 The final histogram depicts samples and their angles after the flipping operation:
 
 <img src="./images/histogram3.jpg"></br></br>
+
+We can see that there are still many 0 angles among the samples but it's significantly lower value than before. 
 
 I finally rescaled images from 160x320 pixels to 160x100. Then, using Keras Cropping2D layer I cropped 40 rows from the top and 20 rows from the bottom of each image. This removed unnecessary information about sky, trees and the car hood at the bottom. The final image size was 100x100 which was intentional and is regarded easier for CNN to operate when the input image is a square.
 
