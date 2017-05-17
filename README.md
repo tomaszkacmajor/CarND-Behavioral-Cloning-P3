@@ -36,7 +36,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 Throughout the project I tested 3 models: [LeNet](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf), model proposed by [Comma.ai](https://github.com/commaai/research/blob/master/train_steering_model.py) and model reported in [Nvidia paper](https://arxiv.org/pdf/1604.07316v1.pdf) for end-to-end learning for self-driving cars. The last, Nvidia model turned out to be the best for the data used in the project. It's a well known Convolutional Neural Network recently, it has about 27 million connections and 250 thousand parameters. 
 
-![alt text][../images/NvidiaModel.png]
+<img src="./images/NvidiaModel.png"></br></br>
 
 #### 2. Attempts to reduce overfitting in the model
 
@@ -93,33 +93,30 @@ Total number of parameters (all are trainable) equals 297019.
 
 To capture good driving behavior, I used the data provided by Udacity - about 8 laps of center lane driving. Here is an example image of center lane driving:
 
-![alt text][../images/center_driving.jpg]
+<img src="./images/center_driving.jpg"></br></br>
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to quickly apply bigger steering angle when it's suddenly off the track. These images show what a recovery samples looks like starting from the situation when a car has one tire on the road edge and ending with a car properly set in the middle of the road. 
 
-![alt text][../images/recovery_driving1.jpg]
-![alt text][../images/recovery_driving2.jpg]
-![alt text][../images/recovery_driving3.jpg]
+<img src="./images/recovery_driving1.jpg" width="260">  <img src="./images/recovery_driving2.jpg" width="260">  <img src="./images/recovery_driving3.jpg" width="260"></br></br>
 
 After samples were collected, for each sample there are 3 camera views available. I randomly selected which camera to choose in each case. If left or right camera was chosen, the appropriate shift (0.25) was applied to the steering angle.
 
 To augment the data sat, I also flipped images and angles in 50% of samples (as suggested in Vivek Yadav [post](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9)). It eliminated model bias towards negative values of steering angle (we drive the track clockwise, so most of the center lane driving steering angles are negative). Each time the image was flipped, the corresponding steering angle was reversed. For example, here is an image that has then been flipped:
 
-![alt text][../images/image_before_flip.jpg]
-![alt text][../images/image_after_flip.jpg]
+<img src="./images/image_before_flip.jpg">  <img src="./images/image_after_flip.jpg"></br></br>
 
 After the collection process, I had 9127 number of data points. I then preprocessed this data by removing 85% of samples whose steering angle was really, really close to 0. The idea (proposed in Mohan Karthik [post](https://medium.com/@mohankarthik/cloning-a-car-to-mimic-human-driving-5c2f7e8d8aff)) behind this operation is to reduce angles near to zero as there are a huge number of such samples which could bias the model towards predicting 0 angle. Below there are histograms of training samples before this operation and after:
 
-![alt text][../images/histogram12.jpg]
+<img src="./images/histogram12.jpg"></br></br>
 
 The final histogram depicts samples and their angles after the flipping operation:
 
-![alt text][../images/histogram3.jpg]
+<img src="./images/histogram3.jpg"></br></br>
 
 I finally rescaled images from 160x320 pixels to 160x100. Then, using Keras Cropping2D layer I cropped 40 rows from the top and 20 rows from the bottom of each image. This removed unnecessary information about sky, trees and the car hood at the bottom. The final image size was 100x100 which was intentional and is regarded easier for CNN to operate when the input image is a square.
 
-![alt text][../images/image_examples.jpg]
-![alt text][../images/image_examples_squares.jpg]
+<img src="./images/image_examples.jpg"></br></br>
+<img src="./images/image_examples_squares.jpg"></br></br>
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as it was not so time consuming and the model already worked. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
