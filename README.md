@@ -7,7 +7,7 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-[![IMAGE ALT TEXT](./output_movies/yt_screenshot.jpg)](https://www.youtube.com/watch?v=-Zq5BaMl4gQ&feature=youtu.be) 
+[![IMAGE ALT TEXT](./images/yt_screenshot.jpg)](https://www.youtube.com/watch?v=-Zq5BaMl4gQ&feature=youtu.be) 
 Final result of the project - car successfully drives around track
 </br>
 
